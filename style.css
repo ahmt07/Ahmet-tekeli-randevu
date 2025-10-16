@@ -1,0 +1,8 @@
+
+/* Flu barber vibe */
+body { background: #0f0f10; color: #eaeaea; }
+.navbar { background: linear-gradient(90deg, #111, #1a1a1a); }
+.card, .table, .alert { background-color: #1c1d1f; color: #eaeaea; border-color: #2a2b2e; }
+.btn-primary, .btn-success { border: none; }
+a, .nav-link { color: #c4f000 !important; }
+.form-control, .form-select { background-color: #121315; color: #eaeaea; border-color: #2a2b2e; }

@@ -1,0 +1,42 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3>Randevu Al</h3>
+<form method="post" id="bookForm">
+  {{ form.hidden_tag() }}
+  <div class="row">
+    <div class="col-md-4 mb-3">{{ form.service_id.label }} {{ form.service_id(class="form-select", id="serviceSel") }}</div>
+    <div class="col-md-4 mb-3">{{ form.barber_id.label }} {{ form.barber_id(class="form-select", id="barberSel") }}</div>
+    <div class="col-md-4 mb-3">{{ form.date.label }} {{ form.date(class="form-control", id="dateSel") }}</div>
+  </div>
+  <div class="mb-3">{{ form.time.label }} {{ form.time(class="form-select", id="timeSel") }}</div>
+  <div class="mb-3">{{ form.note.label }} {{ form.note(class="form-control") }}</div>
+  {{ form.submit(class="btn btn-success") }}
+</form>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const serviceSel = document.getElementById('serviceSel');
+  const barberSel = document.getElementById('barberSel');
+  const dateSel = document.getElementById('dateSel');
+  const timeSel = document.getElementById('timeSel');
+  async function fetchSlots() {
+    if (!serviceSel.value || !barberSel.value || !dateSel.value) return;
+    const r = await fetch(`/slots?service_id=${serviceSel.value}&barber_id=${barberSel.value}&date=${dateSel.value}`);
+    const data = await r.json();
+    timeSel.innerHTML = '';
+    if (data.slots && data.slots.length) {
+      data.slots.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t; opt.textContent = t;
+        timeSel.appendChild(opt);
+      });
+    } else {
+      const opt = document.createElement('option');
+      opt.value = ''; opt.textContent = 'Uygun saat yok';
+      timeSel.appendChild(opt);
+    }
+  }
+  [serviceSel, barberSel, dateSel].forEach(el => el.addEventListener('change', fetchSlots));
+});
+</script>
+{% endblock %}

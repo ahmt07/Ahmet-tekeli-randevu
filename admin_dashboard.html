@@ -1,0 +1,21 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3>Bugünün Randevuları ({{ today.strftime('%d.%m.%Y') }})</h3>
+<table class="table table-striped">
+  <thead><tr><th>Saat</th><th>Müşteri</th><th>Berber</th><th>Hizmet</th><th>Durum</th></tr></thead>
+  <tbody>
+  {% for a in appts %}
+    <tr>
+      <td>{{ a.start_at.strftime('%H:%M') }}</td>
+      <td>{{ a.customer.name }}</td>
+      <td>{{ a.barber.user.name }}</td>
+      <td>{{ a.service.name }}</td>
+      <td>{{ a.status }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5">Bugün randevu yok.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

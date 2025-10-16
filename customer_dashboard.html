@@ -1,0 +1,52 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-3">Randevularım</h3>
+<div class="list-group">
+  {% for a in appts %}
+  <div class="list-group-item">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div class="fw-bold">{{ a.service.name }} • {{ a.barber.user.name }}</div>
+        <div>{{ a.start_at.strftime('%d.%m.%Y %H:%M') }} - {{ a.end_at.strftime('%H:%M') }}</div>
+        <div>Durum: <span class="badge bg-secondary">{{ a.status }}</span></div>
+      </div>
+      <div>
+        {% if a.status=='booked' %}
+        <form class="d-inline" method="post" action="{{ url_for('cancel_appt', appt_id=a.id) }}">
+          <button class="btn btn-outline-danger btn-sm" onclick="return confirm('İptal edilsin mi?')">İptal</button>
+        </form>
+        <button class="btn btn-outline-primary btn-sm ms-2" data-bs-toggle="modal" data-bs-target="#resModal{{a.id}}">Tarih/Saat Değiştir</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Reschedule Modal -->
+  <div class="modal fade" id="resModal{{a.id}}" tabindex="-1">
+    <div class="modal-dialog">
+      <form class="modal-content" method="post" action="{{ url_for('reschedule_appt', appt_id=a.id) }}">
+        <div class="modal-header"><h5 class="modal-title">Randevu Güncelle</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-2">
+            <label>Yeni Tarih</label>
+            <input type="date" name="new_date" class="form-control" required>
+          </div>
+          <div class="mb-2">
+            <label>Yeni Saat</label>
+            <input type="time" name="new_time" class="form-control" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  {% else %}
+    <div class="alert alert-info">Henüz randevunuz yok.</div>
+  {% endfor %}
+</div>
+{% endblock %}

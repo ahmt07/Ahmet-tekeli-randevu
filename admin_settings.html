@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3>Ayarlar</h3>
+<form method="post" class="row g-3">
+  <div class="col-md-3">
+    <label class="form-label">Açılış Saati</label>
+    <input type="number" name="open_hour" class="form-control" value="{{ open_hour }}" min="0" max="23">
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Kapanış Saati</label>
+    <input type="number" name="close_hour" class="form-control" value="{{ close_hour }}" min="1" max="23">
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Slot (dk)</label>
+    <input type="number" name="slot_min" class="form-control" value="{{ slot_min }}" min="10" step="5">
+  </div>
+  <div class="col-md-3">
+    <label class="form-label">Müşteri İptal Limiti (saat)</label>
+    <input type="number" name="cancel_limit" class="form-control" value="{{ cancel_limit }}" min="0">
+  </div>
+  <div class="col-12">
+    <button class="btn btn-primary">Kaydet</button>
+  </div>
+</form>
+{% endblock %}

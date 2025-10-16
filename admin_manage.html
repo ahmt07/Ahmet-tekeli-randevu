@@ -1,0 +1,66 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <h4>Hizmetler</h4>
+    <form method="post" class="row g-2 mb-3">
+      <input type="hidden" name="action" value="add_service">
+      <div class="col-md-5"><input name="name" class="form-control" placeholder="Hizmet adı" required></div>
+      <div class="col-md-3"><input name="duration" type="number" class="form-control" placeholder="Süre (dk)" value="30" required></div>
+      <div class="col-md-3"><input name="price" type="number" class="form-control" placeholder="Fiyat ₺" value="300" required></div>
+      <div class="col-md-1"><button class="btn btn-success w-100">Ekle</button></div>
+    </form>
+    <table class="table">
+      <thead><tr><th>Ad</th><th>Süre</th><th>Fiyat</th><th>Durum</th><th></th></tr></thead>
+      <tbody>
+        {% for s in services %}
+        <tr>
+          <td>{{ s.name }}</td><td>{{ s.duration_min }}</td><td>{{ s.price }}</td>
+          <td>{{ 'Aktif' if s.is_active else 'Pasif' }}</td>
+          <td>
+            <form method="post" class="d-inline">
+              <input type="hidden" name="action" value="toggle_service">
+              <input type="hidden" name="id" value="{{ s.id }}">
+              <button class="btn btn-sm btn-outline-secondary">Aktif/Pasif</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5">Hizmet yok.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-6">
+    <h4>Berberler</h4>
+    <form method="post" class="row g-2 mb-3">
+      <input type="hidden" name="action" value="add_barber">
+      <div class="col-md-4"><input name="name" class="form-control" placeholder="Ad Soyad" required></div>
+      <div class="col-md-4"><input name="email" type="email" class="form-control" placeholder="E-posta" required></div>
+      <div class="col-md-3"><input name="password" type="password" class="form-control" placeholder="Şifre" required></div>
+      <div class="col-md-1"><button class="btn btn-success w-100">Ekle</button></div>
+    </form>
+    <table class="table">
+      <thead><tr><th>Ad</th><th>E-posta</th><th>Durum</th><th></th></tr></thead>
+      <tbody>
+        {% for b in barbers %}
+        <tr>
+          <td>{{ b.user.name }}</td><td>{{ b.user.email }}</td>
+          <td>{{ 'Aktif' if b.is_active else 'Pasif' }}</td>
+          <td>
+            <form method="post" class="d-inline">
+              <input type="hidden" name="action" value="toggle_barber">
+              <input type="hidden" name="id" value="{{ b.id }}">
+              <button class="btn btn-sm btn-outline-secondary">Aktif/Pasif</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4">Berber yok.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

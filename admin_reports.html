@@ -1,0 +1,26 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h3>Raporlar</h3>
+<div class="row">
+  <div class="col-md-4">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div class="h1">{{ revenue }} ₺</div>
+        <div class="text-muted">Tahmini Gelir (aktif randevular)</div>
+      </div>
+    </div>
+  </div>
+</div>
+<h5>Günlük Randevu Sayıları</h5>
+<table class="table table-sm">
+  <thead><tr><th>Tarih</th><th>Adet</th></tr></thead>
+  <tbody>
+    {% for day, cnt in daily_counts %}
+      <tr><td>{{ day }}</td><td>{{ cnt }}</td></tr>
+    {% else %}
+      <tr><td colspan="2">Veri yok.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
